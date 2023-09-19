@@ -47,4 +47,3 @@ public class WikipediaArticle {
         this.redirectTo = redirectTo;
     }
 }
-//added
