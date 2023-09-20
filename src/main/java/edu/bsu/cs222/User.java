@@ -5,7 +5,7 @@ public class User {
    - we are the users looking for
      the updates (changes)
  */
-    
+
     /* TO-DO:
         - use JSON to parse from wikipedia
         - connect that with wikipediaarticle & wikipediaAPI
