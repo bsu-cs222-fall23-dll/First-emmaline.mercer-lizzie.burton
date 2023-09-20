@@ -1,15 +1,24 @@
 package edu.bsu.cs222;
 
 public class Updates {
-/*
-    - 13 most recent changes
-    - reverse-chronological order
-    - time of the changes
-    - date of the changes
-    - one space chr
-    - username of person/editor
-    - newline chr
+    private String userName;
+    private String timeStamp;
 
+    public Updates(String userName, String timeStamp) {
+        this.userName = userName;
+        this.timeStamp = timeStamp;
+    }
 
- */
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    @Override
+    public String toString() {
+        return timeStamp + " " + userName;
+    }
 }
