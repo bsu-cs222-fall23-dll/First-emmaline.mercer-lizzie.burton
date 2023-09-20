@@ -17,7 +17,7 @@ public class User {
           and hold onto that data?? (up for interpretation)
         - print list of changes; pull data from Updates
      */
-    
+
     private String userName;
     private String userID;
 
