@@ -9,16 +9,16 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
-public class WikipediaAPI {
+public class WikipediaAPIReader {
 
 /**
  * Reads the article name of a Wikipedia page
- * should WikipediaArticle use that data to print it out?
+ * should one of the classes use that data to print it out?
  * or should we send it directly to updates?
  */
 
     public static void main(String[] args) {
-        WikipediaAPI revisionReader = new WikipediaAPI();
+        WikipediaAPIReader revisionReader = new WikipediaAPIReader();
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         try {

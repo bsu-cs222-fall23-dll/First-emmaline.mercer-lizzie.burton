@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
-public class WikipediaAPITest {
+public class WikipediaAPIReaderTest {
 
     @Test
     public void testParse() {
