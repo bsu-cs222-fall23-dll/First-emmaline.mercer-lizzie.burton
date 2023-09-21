@@ -1,18 +1,23 @@
 package edu.bsu.cs222;
 
+import java.io.InputStream;
 import java.util.List;
 
-public class WikipediaArticle {
+public class WikipediaRevisionParser {
     private String articleTitle;
     private List<Updates> updatesList;
     private boolean isRedirect;
     private String redirectTo;
 
-    public WikipediaArticle(String articleTitle, List<Updates> updatesList, boolean isRedirect, String redirectTo) {
+    public void WikipediaRevisionParserConstructor(String articleTitle, List<Updates> updatesList, boolean isRedirect, String redirectTo) {
         this.articleTitle = articleTitle;
         this.updatesList = updatesList;
         this.isRedirect = isRedirect;
         this.redirectTo = redirectTo;
+    }
+
+    public String parser(InputStream testDataStream) {
+        return null;
     }
 
     public String getArticleTitle() {
@@ -46,4 +51,6 @@ public class WikipediaArticle {
     public void setRedirectTo(String redirectTo) {
         this.redirectTo = redirectTo;
     }
+
+
 }

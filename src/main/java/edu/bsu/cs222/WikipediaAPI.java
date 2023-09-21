@@ -18,7 +18,7 @@ public class WikipediaAPI {
  */
 
     public static void main(String[] args) {
-        WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
+        WikipediaAPI revisionReader = new WikipediaAPI();
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         try {
@@ -37,6 +37,9 @@ public class WikipediaAPI {
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("User-Agent", "WikipediaRevisionReader/0.1 ()");
             InputStream inputStream = connection.getInputStream();
+            WikipediaRevisionParser parser = new WikipediaRevisionParser();
+            String timestamp = parser.parser(inputStream);
+            return timestamp;
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
