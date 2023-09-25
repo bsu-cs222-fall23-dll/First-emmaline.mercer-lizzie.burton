@@ -1,10 +1,10 @@
 package edu.bsu.cs222;
 
-public class Updates {
+public class Revisions {
     private String userName;
     private String timeStamp;
 
-    public Updates(String userName, String timeStamp) {
+    public Revisions(String userName, String timeStamp) {
         this.userName = userName;
         this.timeStamp = timeStamp;
     }

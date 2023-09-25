@@ -1,18 +1,16 @@
 package edu.bsu.cs222;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WikipediaArticle {
+public class Article {
     private String articleTitle;
-    private List<Updates> updatesList;
-    private boolean isRedirect;
-    private String redirectTo;
+    private List<Revisions> revisions;
+    private String redirectedFrom;
 
-    public void WikipediaRevisionParserConstructor(String articleTitle, List<Updates> updatesList, boolean isRedirect, String redirectTo) {
-        this.articleTitle = articleTitle;
-        this.updatesList = updatesList;
-        this.isRedirect = isRedirect;
-        this.redirectTo = redirectTo;
+    public Article(String articleTitle, List<Revisions> revisions, String redirectedFrom) {
+        this.revisions = new ArrayList<>();
+
     }
 
     public String getArticleTitle() {
@@ -23,28 +21,21 @@ public class WikipediaArticle {
         this.articleTitle = articleTitle;
     }
 
-    public List<Updates> getUpdatesList() {
-        return updatesList;
+    public String getRedirectedFrom() {
+        return redirectedFrom;
     }
 
-    public void setUpdatesList(List<Updates> updatesList) {
-        this.updatesList = updatesList;
+    public List<Revisions> getRevisions() {
+        return revisions;
     }
 
-    public boolean isRedirect() {
-        return isRedirect;
+
+    public void addRevision (Revisions revision) {
+        Revisions Revision;
+        this.revisions.add(revision);
     }
 
-    public void setRedirect(boolean redirect) {
-        isRedirect = redirect;
+    public void setRedirectedFrom(String correctTitle) {
+        this.redirectedFrom = correctTitle;
     }
-
-    public String getRedirectTo() {
-        return redirectTo;
-    }
-
-    public void setRedirectTo(String redirectTo) {
-        this.redirectTo = redirectTo;
-    }
-
 }
