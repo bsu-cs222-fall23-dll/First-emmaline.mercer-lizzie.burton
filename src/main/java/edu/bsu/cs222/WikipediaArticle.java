@@ -2,7 +2,7 @@ package edu.bsu.cs222;
 
 import java.util.List;
 
-public class WikipediaGettersAndSetters {
+public class WikipediaArticle {
     private String articleTitle;
     private List<Updates> updatesList;
     private boolean isRedirect;
