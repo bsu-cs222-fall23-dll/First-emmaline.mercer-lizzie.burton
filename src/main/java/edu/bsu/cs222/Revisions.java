@@ -1,10 +1,12 @@
 package edu.bsu.cs222;
 
+import java.time.LocalDateTime;
+
 public class Revisions {
     private String userName;
-    private String timeStamp;
+    private LocalDateTime timeStamp;
 
-    public Revisions(String userName, String timeStamp) {
+    public Revisions(String userName, LocalDateTime timeStamp) {
         this.userName = userName;
         this.timeStamp = timeStamp;
     }
@@ -13,7 +15,8 @@ public class Revisions {
         return userName;
     }
 
-    public String getTimeStamp() {
+
+    public LocalDateTime getTimeStamp() {
         return timeStamp;
     }
 
