@@ -11,7 +11,7 @@ public class WikipediaRevisionParserTest {
     public void testTimestampParse() throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
-        String timestamp = parser.timestampParser(testDataStream);
+        String timestamp = parser.timestampParser(testDataStream.toString());
         Assertions.assertEquals("2023-09-21T08:36:42Z", timestamp);
     }
 
@@ -19,7 +19,18 @@ public class WikipediaRevisionParserTest {
     public void testUsernameParse() throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
-        String username = parser.usernameParser(testDataStream);
+        String username = parser.usernameParser(testDataStream.toString());
         Assertions.assertEquals("StefenTower", username);
     }
+
+    // https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=zappa&rvprop=timestamp|user&rvlimit=13&redirects
+
+    @Test
+    public void testWorkingURL() throws IOException {
+        WikipediaRevisionReader parser = new WikipediaRevisionReader();
+        String url = parser.createWorkingURL("zappa").toString();
+        Assertions.assertEquals("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                "zappa&rvprop=timestamp|user&rvlimit=13&redirects", url);
+    }
+
 }

@@ -13,12 +13,12 @@ public class WikipediaRevisionParser {
         - uses JSON because it's already in a JSONArray
      */
 
-    public String timestampParser(InputStream testDataStream) throws IOException {
+    public String timestampParser(String testDataStream) throws IOException {
         JSONArray result = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
         return result.get(0).toString();
     }
 
-    public String usernameParser(InputStream testDataStream) throws IOException {
+    public String usernameParser(String testDataStream) throws IOException {
         JSONArray result = (JSONArray) JsonPath.read(testDataStream, "$..username");
         return result.get(0).toString();
     }
