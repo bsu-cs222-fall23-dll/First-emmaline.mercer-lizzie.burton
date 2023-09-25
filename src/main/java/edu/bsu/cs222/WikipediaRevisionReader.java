@@ -1,11 +1,9 @@
 package edu.bsu.cs222;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
@@ -33,27 +31,56 @@ public class WikipediaRevisionReader {
 
     private String getLatestRevisionOf(String articleTitle) throws IOException {
         URL url = createWorkingURL(articleTitle);
-
         try {
             URLConnection connection = url.openConnection();
+            byte[] byteArray = getByteArray(connection);
             connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
-            // wiki etiquette
-
-            InputStream inputStream = connection.getInputStream();
-            WikipediaRevisionParser parser = new WikipediaRevisionParser();
-
-            Object inputStreamData = inputStream;
-            String timestamp = parser.timestampParser((String) inputStreamData);
-
-
-            String username = parser.usernameParser((String) inputStreamData);
-
-            return timestamp;
-
+//            String data = readParsedData(connection);
+//            return data;
+            System.out.println(byteArray);
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
+        return null;
     }
+
+    public static byte[] getByteArray(URLConnection connection) throws IOException {
+        InputStream inputStream = null;
+        HttpURLConnection httpConnection = (HttpURLConnection) connection;
+        int responseCode = httpConnection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            inputStream = httpConnection.getInputStream();
+        }
+        byte[] inputStreamData = inputStreamToByte(inputStream);
+        return inputStreamData;
+    }
+
+    public static byte[] inputStreamToByte(InputStream inputStream) {
+        try {
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            int character;
+            while ((character = inputStream.read()) != -1) {
+                byteStream.write(character);
+            }
+            byte imgdata[] = byteStream.toByteArray();
+            byteStream.close();
+            return imgdata;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+//    public String readParsedData(URLConnection connection) throws IOException {
+//        InputStream inputStream = connection.getInputStream();
+//        WikipediaRevisionParser parser = new WikipediaRevisionParser();
+//
+//        String inputStreamData = inputStream.toString();
+//        String timestamp = parser.timestampParser((String) inputStreamData);
+//        String username = parser.usernameParser((String) inputStreamData);
+//
+//        String userData = timestamp + username;
+//        return userData;
+//    }
 
     public URL createWorkingURL(String articleTitle) throws MalformedURLException {
         String encodedURLString = URLEncoder.encode(articleTitle, Charset.defaultCharset());
