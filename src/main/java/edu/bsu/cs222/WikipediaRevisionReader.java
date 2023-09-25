@@ -20,10 +20,13 @@ public class WikipediaRevisionReader {
     public static void main(String[] args) {
         WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
         Scanner scanner = new Scanner(System.in);
-        String line = scanner.nextLine();
+
+        System.out.println("Please enter the article name you are looking for: ");
+        String line = scanner.nextLine(); // takes user input
+
         try {
             String timestamp = revisionReader.getLatestRevisionOf(line);
-            System.out.println(timestamp);
+            System.out.println(timestamp); // prints out the timestamp
         } catch (IOException ioException) {
             System.err.println("Network connection problem: " + ioException.getMessage());
         }
@@ -32,13 +35,17 @@ public class WikipediaRevisionReader {
     private String getLatestRevisionOf(String articleTitle) throws IOException {
         String urlString = String.format("", articleTitle);
         String encodedURLString = URLEncoder.encode(urlString, Charset.defaultCharset());
+
         try {
             URL url = new URL(encodedURLString);
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
             InputStream inputStream = connection.getInputStream();
             WikipediaRevisionParser parser = new WikipediaRevisionParser();
-            String timestamp = parser.parser(inputStream);
+
+            String timestamp = parser.timestampParser(inputStream);
+            String username = parser.usernameParser(inputStream);
+
             return timestamp;
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
