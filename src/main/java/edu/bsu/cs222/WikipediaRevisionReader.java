@@ -9,7 +9,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
-public class WikipediaAPIReader {
+public class WikipediaRevisionReader {
 
 /**
  * Reads the article name of a Wikipedia page
@@ -18,7 +18,7 @@ public class WikipediaAPIReader {
  */
 
     public static void main(String[] args) {
-        WikipediaAPIReader revisionReader = new WikipediaAPIReader();
+        WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         try {
@@ -35,7 +35,7 @@ public class WikipediaAPIReader {
         try {
             URL url = new URL(encodedURLString);
             URLConnection connection = url.openConnection();
-            connection.setRequestProperty("User-Agent", "WikipediaRevisionReader/0.1 ()");
+            connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
             InputStream inputStream = connection.getInputStream();
             WikipediaRevisionParser parser = new WikipediaRevisionParser();
             String timestamp = parser.parser(inputStream);

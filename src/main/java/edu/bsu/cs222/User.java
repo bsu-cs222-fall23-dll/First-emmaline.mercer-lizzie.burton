@@ -42,8 +42,4 @@ public class User {
         this.userID = userID;
     }
 
-    @Override
-    public String toString() {
-        return "Username: " + userName + ", User ID: " + userID;
-    }
 }
