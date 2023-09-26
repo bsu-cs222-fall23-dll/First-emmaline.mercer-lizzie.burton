@@ -11,6 +11,7 @@ public class WikipediaRevisionReader {
 
     public String getLatestRevisionOf(String articleTitle) throws IOException {
         URL url = createWorkingURL(articleTitle);
+//        System.out.println(url); //printed correct url
         try {
             URLConnection connection = url.openConnection();
 //
@@ -19,6 +20,7 @@ public class WikipediaRevisionReader {
 
             connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
             JSONArray data = (JSONArray) readParsedData(connection);
+            System.out.println(data); // nothing printed
             return data.toString();
 
         } catch (MalformedURLException malformedURLException) {

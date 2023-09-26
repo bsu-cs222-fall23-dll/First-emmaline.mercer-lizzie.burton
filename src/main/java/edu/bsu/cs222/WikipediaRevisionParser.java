@@ -44,7 +44,7 @@ public class WikipediaRevisionParser {
 
     public JSONArray revisionsParser(String testDataStream) throws IOException {
         try {
-            JSONArray revisions = (JSONArray) JsonPath.read(testDataStream, "$.query.pages.*.revisions[*]");
+            JSONArray revisions = JsonPath.read(testDataStream, "$.query.pages.*.revisions[*]");
 
             if (revisions != null) {
                 int lengthLimit = Math.min(revisions.size(), 13);
