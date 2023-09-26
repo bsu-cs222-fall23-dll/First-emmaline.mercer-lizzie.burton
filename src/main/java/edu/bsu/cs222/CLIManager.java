@@ -23,8 +23,14 @@ public class CLIManager {
 
         try {
             String allRevisions = revisionReader.getLatestRevisionOf(articleTitle);
-            System.out.println(allRevisions);
+            if (articleTitle == null) {
+                System.err.println("No article title provided - exiting program.");
 
+//            } else if (articleTitle  ) {
+//
+            } else if (articleTitle != null ) {
+                System.out.println(allRevisions);
+            }
         } catch (IOException ioException) {
             System.err.println("Network connection problem: " + ioException.getMessage());
         }

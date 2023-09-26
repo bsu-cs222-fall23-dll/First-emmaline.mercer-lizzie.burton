@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 public class WikipediaRevisionReader {
 
     public String getLatestRevisionOf(String articleTitle) throws IOException {
         URL url = createWorkingURL(articleTitle);
-//        System.out.println(url); //printed correct url
+        System.out.println(url); //printed correct url
         try {
             URLConnection connection = url.openConnection();
 //
@@ -19,7 +20,9 @@ public class WikipediaRevisionReader {
 //            System.out.println(byteArray);
 
             connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
+            connection.connect();
             JSONArray data = (JSONArray) readParsedData(connection);
+            System.out.println("print");
             System.out.println(data); // nothing printed
             return data.toString();
 
@@ -30,16 +33,17 @@ public class WikipediaRevisionReader {
 
     public JSONArray readParsedData(URLConnection connection) throws IOException {
 //        InputStream inputStream = new ByteArrayOutputStream(bytes);
-        InputStream inputStream = connection.getInputStream();
+        String inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
 //        return parser.parse(inputStream);
 //        String inputStreamData = inputStream.toString();
-        String inputStreamData = inputStream.toString();
+        System.out.println(inputStreamData);
 //        List parseAllRevisions = parser.parse((InputStream) inputStreamData);
 
-        JSONArray timestamp = (parser.timestampParser(inputStreamData.toString()));
-        JSONArray username = (parser.usernameParser(inputStreamData.toString()));
-        JSONArray revisions = (parser.revisionsParser(inputStreamData.toString()));
+        JSONArray timestamp = (parser.timestampParser(inputStreamData));
+        System.out.println(timestamp.get(0));
+        JSONArray username = (parser.usernameParser(inputStreamData));
+        JSONArray revisions = (parser.revisionsParser(inputStreamData));
 
         JSONArray allData = new JSONArray();
         allData.add(timestamp);
