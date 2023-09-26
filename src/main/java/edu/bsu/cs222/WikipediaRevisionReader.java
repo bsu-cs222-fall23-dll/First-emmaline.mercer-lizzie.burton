@@ -15,27 +15,13 @@ public class WikipediaRevisionReader {
  * or should we send it directly to updates?
  */
 
-    public static void main(String[] args) throws IOException {
-        WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the article name you are looking for: ");
-        String articleTitle = scanner.nextLine(); // takes user input
-
-        try {
-            String timestamp = revisionReader.getLatestRevisionOf(articleTitle);
-            System.out.println(timestamp); // prints out the timestamp
-        } catch (IOException ioException) {
-            System.err.println("Network connection problem: " + ioException.getMessage());
-        }
-    }
-
     public String getLatestRevisionOf(String articleTitle) throws IOException {
         URL url = createWorkingURL(articleTitle);
         try {
             URLConnection connection = url.openConnection();
-
-            byte[] byteArray = getByteArray(connection);
-            System.out.println(byteArray);
+//
+//            byte[] byteArray = getByteArray(connection);
+//            System.out.println(byteArray);
 
             connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
             String data = readParsedData(connection);
@@ -43,33 +29,6 @@ public class WikipediaRevisionReader {
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
-    }
-
-    public static byte[] getByteArray(URLConnection connection) throws IOException {
-        InputStream inputStream = null;
-        HttpURLConnection httpConnection = (HttpURLConnection) connection;
-        int responseCode = httpConnection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            inputStream = httpConnection.getInputStream();
-        }
-        byte[] inputStreamData = inputStreamToByte(inputStream);
-        return inputStreamData;
-    }
-
-    public static byte[] inputStreamToByte(InputStream inputStream) {
-        try {
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            int character;
-            while ((character = inputStream.read()) != -1) {
-                byteStream.write(character);
-            }
-            byte imgdata[] = byteStream.toByteArray();
-            byteStream.close();
-            return imgdata;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public String readParsedData(URLConnection connection) throws IOException {
@@ -90,5 +49,33 @@ public class WikipediaRevisionReader {
                 + encodedURLString + "&rvprop=timestamp|user&rvlimit=13&redirects");
         return url;
     }
+//
+//    public static byte[] getByteArray(URLConnection connection) throws IOException {
+//        InputStream inputStream = null;
+//        HttpURLConnection httpConnection = (HttpURLConnection) connection;
+//        int responseCode = httpConnection.getResponseCode();
+//        if (responseCode == HttpURLConnection.HTTP_OK) {
+//            inputStream = httpConnection.getInputStream();
+//        }
+//        byte[] inputStreamData = inputStreamToByte(inputStream);
+//        return inputStreamData;
+//    }
+//
+//    public static byte[] inputStreamToByte(InputStream inputStream) {
+//        try {
+//            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+//            int character;
+//            while ((character = inputStream.read()) != -1) {
+//                byteStream.write(character);
+//            }
+//            byte imgdata[] = byteStream.toByteArray();
+//            byteStream.close();
+//            return imgdata;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
 
 }
