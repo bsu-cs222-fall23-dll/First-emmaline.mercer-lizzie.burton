@@ -1,19 +1,13 @@
 package edu.bsu.cs222;
 
-import java.io.ByteArrayOutputStream;
+import net.minidev.json.JSONArray;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 
 public class WikipediaRevisionReader {
-
-/**
- * Reads the article name of a Wikipedia page
- * should one of the classes use that data to print it out?
- * or should we send it directly to updates?
- */
 
     public String getLatestRevisionOf(String articleTitle) throws IOException {
         URL url = createWorkingURL(articleTitle);
@@ -24,23 +18,33 @@ public class WikipediaRevisionReader {
 //            System.out.println(byteArray);
 
             connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
-            String data = readParsedData(connection);
-            return data;
+            JSONArray data = (JSONArray) readParsedData(connection);
+            return data.toString();
+
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
     }
 
-    public String readParsedData(URLConnection connection) throws IOException {
+    public JSONArray readParsedData(URLConnection connection) throws IOException {
+//        InputStream inputStream = new ByteArrayOutputStream(bytes);
         InputStream inputStream = connection.getInputStream();
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
-
+//        return parser.parse(inputStream);
+//        String inputStreamData = inputStream.toString();
         String inputStreamData = inputStream.toString();
-        String timestamp = parser.timestampParser((String) inputStreamData);
-        String username = parser.usernameParser((String) inputStreamData);
+//        List parseAllRevisions = parser.parse((InputStream) inputStreamData);
 
-        String userData = timestamp + username;
-        return userData;
+        JSONArray timestamp = (parser.timestampParser(inputStreamData.toString()));
+        JSONArray username = (parser.usernameParser(inputStreamData.toString()));
+        JSONArray revisions = (parser.revisionsParser(inputStreamData.toString()));
+
+        JSONArray allData = new JSONArray();
+        allData.add(timestamp);
+        allData.add(username);
+        allData.add(revisions);
+        return allData;
+
     }
 
     public URL createWorkingURL(String articleTitle) throws MalformedURLException {
@@ -49,6 +53,7 @@ public class WikipediaRevisionReader {
                 + encodedURLString + "&rvprop=timestamp|user&rvlimit=13&redirects");
         return url;
     }
+
 //
 //    public static byte[] getByteArray(URLConnection connection) throws IOException {
 //        InputStream inputStream = null;
