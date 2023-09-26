@@ -29,7 +29,7 @@ public class WikipediaRevisionReader {
         }
     }
 
-    private String getLatestRevisionOf(String articleTitle) throws IOException {
+    public String getLatestRevisionOf(String articleTitle) throws IOException {
         URL url = createWorkingURL(articleTitle);
         try {
             URLConnection connection = url.openConnection();

@@ -5,15 +5,30 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
+
 public class WikipediaRevisionParserTest {
 
+    private static String convertStreamToString(InputStream inputStream) {
+        Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+        return scanner.hasNext() ? scanner.next() : "";
+    }
     @Test
     public void testTimestampParse() throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
-        String timestamp = parser.timestampParser(testDataStream.toString());
+        String testData = convertStreamToString(testDataStream);
+        String timestamp = parser.timestampParser(testData);
         Assertions.assertEquals("2023-09-21T08:36:42Z", timestamp);
     }
+
+//    @Test
+//    public void testTimestampParse() throws IOException {
+//        WikipediaRevisionParser parser = new WikipediaRevisionParser();
+//        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+//        String timestamp = parser.timestampParser(testDataStream.toString());
+//        Assertions.assertEquals("2023-09-21T08:36:42Z", timestamp);
+//    }
 
     @Test
     public void testUsernameParse() throws IOException {

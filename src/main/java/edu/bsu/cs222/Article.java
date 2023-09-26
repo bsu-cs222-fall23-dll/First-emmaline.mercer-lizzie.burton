@@ -1,41 +1,26 @@
 package edu.bsu.cs222;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Article {
-    private String articleTitle;
-    private List<Revisions> revisions;
-    private String redirectedFrom;
+    private String title;
+    private List<Revision> revisions;
 
-    public Article(String articleTitle, List<Revisions> revisions, String redirectedFrom) {
-        this.revisions = new ArrayList<>();
-
+    public Article(String title, List<Revision> revisions) {
+        this.title = title;
+        this.revisions = revisions;
     }
 
-    public String getArticleTitle() {
-        return articleTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setArticleTitle(String articleTitle) {
-        this.articleTitle = articleTitle;
-    }
-
-    public String getRedirectedFrom() {
-        return redirectedFrom;
-    }
-
-    public List<Revisions> getRevisions() {
+    public List<Revision> getRevisions() {
         return revisions;
     }
 
-
-    public void addRevision (Revisions revision) {
-        Revisions Revision;
-        this.revisions.add(revision);
-    }
-
-    public void setRedirectedFrom(String correctTitle) {
-        this.redirectedFrom = correctTitle;
+    public Revision getLatestRevision() {
+        // Assuming the first revision in the list is the latest
+        return revisions.get(0);
     }
 }
