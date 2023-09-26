@@ -33,15 +33,16 @@ public class WikipediaRevisionReader {
         URL url = createWorkingURL(articleTitle);
         try {
             URLConnection connection = url.openConnection();
+
             byte[] byteArray = getByteArray(connection);
-            connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
-//            String data = readParsedData(connection);
-//            return data;
             System.out.println(byteArray);
+
+            connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
+            String data = readParsedData(connection);
+            return data;
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
-        return null;
     }
 
     public static byte[] getByteArray(URLConnection connection) throws IOException {
@@ -70,17 +71,18 @@ public class WikipediaRevisionReader {
         }
         return null;
     }
-//    public String readParsedData(URLConnection connection) throws IOException {
-//        InputStream inputStream = connection.getInputStream();
-//        WikipediaRevisionParser parser = new WikipediaRevisionParser();
-//
-//        String inputStreamData = inputStream.toString();
-//        String timestamp = parser.timestampParser((String) inputStreamData);
-//        String username = parser.usernameParser((String) inputStreamData);
-//
-//        String userData = timestamp + username;
-//        return userData;
-//    }
+
+    public String readParsedData(URLConnection connection) throws IOException {
+        InputStream inputStream = connection.getInputStream();
+        WikipediaRevisionParser parser = new WikipediaRevisionParser();
+
+        String inputStreamData = inputStream.toString();
+        String timestamp = parser.timestampParser((String) inputStreamData);
+        String username = parser.usernameParser((String) inputStreamData);
+
+        String userData = timestamp + username;
+        return userData;
+    }
 
     public URL createWorkingURL(String articleTitle) throws MalformedURLException {
         String encodedURLString = URLEncoder.encode(articleTitle, Charset.defaultCharset());
