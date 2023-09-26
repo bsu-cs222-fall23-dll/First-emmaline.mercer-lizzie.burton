@@ -1,10 +1,13 @@
 package edu.bsu.cs222;
 
+import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class WikipediaRevisionParserTests {
@@ -18,8 +21,8 @@ public class WikipediaRevisionParserTests {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         String testData = convertStreamToString(testDataStream);
-        String timestamp = parser.timestampParser(testData);
-        Assertions.assertEquals("2023-09-21T08:36:42Z", timestamp);
+        JSONArray timestamp = parser.timestampParser(testData);
+        Assertions.assertEquals("2023-09-26T01:51:45Z", timestamp.get(0));
     }
 
 //    @Test
@@ -34,8 +37,20 @@ public class WikipediaRevisionParserTests {
     public void testUsernameParse() throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
-        String username = parser.usernameParser(testDataStream.toString());
+        String testData = convertStreamToString(testDataStream);
+        JSONArray username = parser.usernameParser(testData);
         Assertions.assertEquals("StefenTower", username);
+    }
+
+    @Test
+    public void testParser() throws IOException {
+        WikipediaRevisionParser parser = new WikipediaRevisionParser();
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+//        String testData = convertStreamToString(testDataStream);
+        JSONArray revisions = parser.revisionsParser(String.valueOf(testDataStream));
+        System.out.println(revisions);
+        String revisionsString = "{\"user\":\"2403:580D:6977:1:EC6C:A030:68E7:65A7\",\"anon\":\"\",\"timestamp\":\"2023-09-25T23:07:44Z\"}";
+        Assertions.assertEquals(testDataStream, revisions);
     }
 
     // https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=zappa&rvprop=timestamp|user&rvlimit=13&redirects
@@ -47,5 +62,7 @@ public class WikipediaRevisionParserTests {
         Assertions.assertEquals("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 "zappa&rvprop=timestamp|user&rvlimit=13&redirects", url);
     }
+
+
 
 }
