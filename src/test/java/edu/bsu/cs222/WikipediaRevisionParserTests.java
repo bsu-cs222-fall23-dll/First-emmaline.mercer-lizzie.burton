@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class WikipediaRevisionParserTest {
+public class WikipediaRevisionParserTests {
 
     private static String convertStreamToString(InputStream inputStream) {
         Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");

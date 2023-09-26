@@ -62,9 +62,9 @@ public class WikipediaRevisionReader {
             while ((character = inputStream.read()) != -1) {
                 byteStream.write(character);
             }
-            byte imgdata[] = byteStream.toByteArray();
+            byte imgData[] = byteStream.toByteArray();
             byteStream.close();
-            return imgdata;
+            return imgData;
         } catch (Exception e) {
             e.printStackTrace();
         }
