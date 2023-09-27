@@ -2,9 +2,6 @@ package edu.bsu.cs222;
 
 import org.junit.jupiter.api.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class ArticleTest {
 
     private static final String SAMPLE_TITLE = "Sample Article";
@@ -22,13 +19,13 @@ public class ArticleTest {
 
     @Test
     public void testGetTitle() {
-        Assertions.assertEquals(SAMPLE_TITLE, article.getTitle());
+        Assertions.assertEquals(SAMPLE_TITLE, article.title());
     }
 
     @Test
     public void testGetRevisions() {
-        Assertions.assertTrue(article.getRevisions().contains(firstRevision));
-        Assertions.assertTrue(article.getRevisions().contains(secondRevision));
+        Assertions.assertTrue(article.revisions().contains(firstRevision));
+        Assertions.assertTrue(article.revisions().contains(secondRevision));
     }
 
     @Test
