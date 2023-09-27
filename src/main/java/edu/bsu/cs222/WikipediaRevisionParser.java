@@ -31,4 +31,15 @@ public class WikipediaRevisionParser {
     public JSONArray usernameParser(String testDataStream) {
         return JsonPath.read(testDataStream, "$..user");
     }
+
+    public void printListOFAllRevisions(String articleTitle) throws IOException {
+        WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
+        JSONArray revisedArray = revisionReader.readParsedData(articleTitle);
+        System.out.println("\nArticle Changes: ");
+        for (Object revision : revisedArray) {
+            String revisionUserName = JsonPath.read(revision, "$.user");
+            String revisionTimestamp = JsonPath.read(revision, "$.timestamp");
+            System.out.println("Timestamp: " + revisionTimestamp + " " + "User: " + revisionUserName);
+        }
+    }
 }

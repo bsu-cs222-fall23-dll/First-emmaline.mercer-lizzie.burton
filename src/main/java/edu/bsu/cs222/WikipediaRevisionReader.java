@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class WikipediaRevisionReader {
     public void run() {
-        Revision revision = new Revision();
+        WikipediaRevisionParser revisions = new WikipediaRevisionParser();
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the article name you are looking for: ");
@@ -18,7 +18,7 @@ public class WikipediaRevisionReader {
         reader.checkArticleTitle(articleTitle);
 
         try {
-            revision.printListOFAllRevisions(articleTitle);
+            revisions.printListOFAllRevisions(articleTitle);
         } catch (IOException ioException) {
             System.err.println("Network connection problem: " + ioException.getMessage());
         }

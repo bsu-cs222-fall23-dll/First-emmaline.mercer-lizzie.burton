@@ -4,12 +4,17 @@ import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 
 import java.io.IOException;
-//import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 public class Revision {
-//
-//    private String username;
-//    private LocalDateTime timestamp;
+
+    private String username;
+    private LocalDateTime timestamp;
+
+    public Revision(String username, LocalDateTime timestamp) {
+        this.username = username;
+        this.timestamp = timestamp;
+    }
 
     public void printListOFAllRevisions(String articleTitle) throws IOException {
         WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
@@ -21,17 +26,17 @@ public class Revision {
             System.out.println("Timestamp: " + revisionTimestamp + " " + "User: " + revisionUserName);
         }
     }
-//
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public LocalDateTime getTimestamp() {
-//        return timestamp;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Revision made by " + username + " at " + timestamp;
-//    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Revision made by " + username + " at " + timestamp;
+    }
 }
