@@ -14,9 +14,15 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("com.jayway.jsonpath:json-path:2.8.0")
     implementation("net.minidev:json-smart:2.5.0")
+    implementation("ch.qos.logback:logback-classic:1.2.6")
+
+
+
+
     //implementation 'org.json:json:20230618'
 
 }
+
 
 tasks.test {
     useJUnitPlatform()
