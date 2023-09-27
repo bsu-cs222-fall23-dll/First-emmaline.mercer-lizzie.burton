@@ -12,13 +12,13 @@ public class ArticleTest {
     private Revision firstRevision;
     private Revision secondRevision;
 
-    @BeforeEach
-    public void setUp() {
-        firstRevision = new Revision("JohnDoe", "2023-09-25T12:30:45+01:00");
-        secondRevision = new Revision("JaneDoe", "2023-09-24T11:20:35+01:00");
-        List<Revision> revisions = Arrays.asList(firstRevision, secondRevision);
-        article = new Article(SAMPLE_TITLE, revisions);
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        firstRevision = new Revision("JohnDoe", "2023-09-25T12:30:45+01:00");
+//        secondRevision = new Revision("JaneDoe", "2023-09-24T11:20:35+01:00");
+//        List<Revision> revisions = Arrays.asList(firstRevision, secondRevision);
+//        article = new Article(SAMPLE_TITLE, revisions);
+//    }
 
     @Test
     public void testGetTitle() {

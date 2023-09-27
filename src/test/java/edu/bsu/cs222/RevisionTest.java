@@ -11,10 +11,10 @@ public class RevisionTest {
     private static final String SAMPLE_TIMESTAMP = "2023-09-25T12:30:45+01:00";
     private Revision revision;
 
-    @BeforeEach
-    public void setUp() {
-        revision = new Revision(SAMPLE_USERNAME, SAMPLE_TIMESTAMP);
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        revision = new Revision(SAMPLE_USERNAME, SAMPLE_TIMESTAMP);
+//    }
 
     @Test
     public void testGetUsername() {

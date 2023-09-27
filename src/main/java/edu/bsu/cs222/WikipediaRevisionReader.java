@@ -1,63 +1,97 @@
 package edu.bsu.cs222;
 
+import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.*;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 
 public class WikipediaRevisionReader {
-
-    public String getLatestRevisionOf(String articleTitle) throws IOException {
-        URL url = createWorkingURL(articleTitle);
-        System.out.println(url); //printed correct url
-        try {
-            URLConnection connection = url.openConnection();
+//    String input;
+//    public WikipediaRevisionReader(String userInput) {
+//        this.input = userInput;
+//    }
+//    public String getLatestRevisionOf(String articleTitle) throws IOException {
+////        Revision revision = new Revision();
+//        WikipediaRevisionReader reader = new WikipediaRevisionReader();
+//        URL url = reader.getConstructedURL(articleTitle);
+//        //prints correct URL
+//        URLConnection connection = WikipediaRevisionReader.connectURLToWiki(url);
+//        JSONArray data = (JSONArray) readParsedData(connection);
+//        return data.toString();
 //
-//            byte[] byteArray = getByteArray(connection);
-//            System.out.println(byteArray);
+////        System.out.println(new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset()));
+////        return new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
+//
+////
+//////        System.out.println(url); //printed correct url
+////
+////        try {
+////
+//////            System.out.println("print");
+//////            System.out.println(data); // nothing printed
+////            revision.printListOFAllRevisions(data);
+////
+//////            return data.toString();
+////
+////        } catch (MalformedURLException malformedURLException) {
+////            throw new RuntimeException(malformedURLException);
+////        }
+//    }
 
-            connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
-            connection.connect();
-            JSONArray data = (JSONArray) readParsedData(connection);
-            System.out.println("print");
-            System.out.println(data); // nothing printed
-            return data.toString();
+    public JSONArray readParsedData(String articleTitle) throws IOException {
+//        URLConnection connection = WikipediaRevisionReader.connectURLToWiki(url);
+//        return new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
+        WikipediaRevisionParser parser = new WikipediaRevisionParser();
+        WikipediaRevisionReader reader = new WikipediaRevisionReader();
+        Redirect redirect = new Redirect();
+        URL url = reader.getConstructedURL(articleTitle);
+        //prints correct URL
+        URLConnection connection = WikipediaRevisionReader.connectURLToWiki(url);
+        String inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
 
-        } catch (MalformedURLException malformedURLException) {
-            throw new RuntimeException(malformedURLException);
+        redirect.isRedirected(inputStreamData);
+        ifPageMissing(inputStreamData);
+
+//        System.out.println(inputStreamData);
+
+//        JSONArray timestamp = (parser.timestampParser(inputStreamData));
+//        System.out.println(timestamp.get(0));
+//        JSONArray username = (parser.usernameParser(inputStreamData));
+//        System.out.println(username.get(0));
+        JSONArray revisions = (parser.revisionsParser(inputStreamData));
+        System.out.println(revisions.get(0));
+
+        return revisions;
+    }
+
+    private void ifPageMissing(Object inputStreamData) {
+        JSONArray pageMissingCheck  = JsonPath.read(inputStreamData, "$..missing");
+        if( !pageMissingCheck.isEmpty()) {
+            System.err.println("Error, No Page Found!");
         }
     }
 
-    public JSONArray readParsedData(URLConnection connection) throws IOException {
-//        InputStream inputStream = new ByteArrayOutputStream(bytes);
-        String inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
-        WikipediaRevisionParser parser = new WikipediaRevisionParser();
-//        return parser.parse(inputStream);
-//        String inputStreamData = inputStream.toString();
-        System.out.println(inputStreamData);
-//        List parseAllRevisions = parser.parse((InputStream) inputStreamData);
-
-        JSONArray timestamp = (parser.timestampParser(inputStreamData));
-        System.out.println(timestamp.get(0));
-        JSONArray username = (parser.usernameParser(inputStreamData));
-        JSONArray revisions = (parser.revisionsParser(inputStreamData));
-
-        JSONArray allData = new JSONArray();
-        allData.add(timestamp);
-        allData.add(username);
-        allData.add(revisions);
-        return allData;
-
-    }
-
-    public URL createWorkingURL(String articleTitle) throws MalformedURLException {
+    public URL getConstructedURL(String articleTitle) throws MalformedURLException {
         String encodedURLString = URLEncoder.encode(articleTitle, Charset.defaultCharset());
         URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles="
                 + encodedURLString + "&rvprop=timestamp|user&rvlimit=13&redirects");
         return url;
+    }
+
+    public static URLConnection connectURLToWiki(URL url) {
+        try {
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "CS222FirstProject/0.1 (emmaline.mercer@bsu.edu)");
+            connection.connect();
+            return connection;
+        } catch(Exception e) {
+            System.err.println("NETWORK ERROR");
+            System.exit(0);
+            return null;
+        }
+
     }
 
 //

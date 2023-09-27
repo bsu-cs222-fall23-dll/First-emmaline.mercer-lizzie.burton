@@ -24,30 +24,3 @@ public class Article {
         return revisions.get(0);
     }
 }
-//{
-//  "continue": {
-//    "rvcontinue": "20230917134925|1175795183",
-//    "continue": "||"
-//  },
-//  "query": {
-//    "redirects": [
-//      {
-//        "from": "Zappa",
-//        "to": "Frank Zappa"
-//      }
-//    ],
-//    "pages": {
-//      "10672": {
-//        "pageid": 10672,
-//        "ns": 0,
-//        "title": "Frank Zappa",
-//        "revisions": [
-//          {
-//            "user": "StefenTower",
-//            "timestamp": "2023-09-21T08:36:42Z"
-//          }
-//        ]
-//      }
-//    }
-//  }
-//}

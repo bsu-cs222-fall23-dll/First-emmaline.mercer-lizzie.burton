@@ -5,43 +5,11 @@ import net.minidev.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WikipediaRevisionParser {
-//    public List<Revision> parse(InputStream testDataStream) throws IOException {
-//        try {
-//            JSONArray allRevisions = JsonPath.read(testDataStream, "$..allrevisions.*");
-//            if(allRevisions != null ) {
-//                int revisionsLimit = Math.min(allRevisions.size(), 13);
-//                List<Revision> revisionList = new ArrayList<>(revisionsLimit);
-//                List<String> revisionUser = JsonPath.read(allRevisions, "$..user");
-//                System.out.println(revisionUser);
-//                List<String> revisionTimestamp = JsonPath.read(allRevisions, "$..timestamp");
-//                System.out.println(revisionTimestamp);
-////                ByteArrayOutputStream baos = null;
-//                for (int i = 0; i < revisionsLimit; i++) {
-//                    Revision revisionHolder = new Revision(revisionUser.get(i), revisionTimestamp.get(i));
-//                    revisionList.add(revisionHolder);
-////                    baos = new ByteArrayOutputStream();
-////                    for (String line : revisionUser) {
-////                        baos.write(line.getBytes());
-////                    }
-////                }
-////                byte[] bytes = baos.toByteArray();
-//                }
-//                System.out.println(revisionList);
-//                return revisionList;
-//            }else {
-//                System.err.println("There is No article with that name!");
-//            }
-//        }
-//        catch (IOException e){
-//            System.err.println("Error! " + e.getMessage());
-//        }
-//        return null;
-//    }
-
     public JSONArray revisionsParser(String testDataStream) throws IOException {
         try {
             JSONArray revisions = JsonPath.read(testDataStream, "$.query.pages.*.revisions[*]");
@@ -61,8 +29,12 @@ public class WikipediaRevisionParser {
         }
     }
 
+//    public void missingPage(Object )
+
     public JSONArray timestampParser(String testDataStream) {
         JSONArray result = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
+        return result;
+
 //        ArrayList<String> timestampArrayList = new ArrayList<>();
 //        timestampArrayList.add(String.valueOf(result));
 ////        for (String data : timestampArrayList) {
@@ -71,16 +43,41 @@ public class WikipediaRevisionParser {
 ////            }
 ////        }
 //        System.out.println(timestampArrayList);
-        return result;
     }
 
     public JSONArray usernameParser(String testDataStream) {
-        JSONArray result = (JSONArray) JsonPath.read(testDataStream, "$..username");
+        JSONArray result = (JSONArray) JsonPath.read(testDataStream, "$..user");
+        return result;
+
+
 //        ArrayList<String> usernameArrayList= new ArrayList<>();
 //        usernameArrayList.add(String.valueOf(result));
 //        System.out.println(usernameArrayList);
-        return result;
 //        return result.get(0).toString(); // this is returning an empty string => the InputStream doesn't add anything into it because it's only usable once
     }
+//
+//    public JSONArray dataInputStream() {
+//        WikipediaRevisionReader reader = new WikipediaRevisionReader();
+//        WikipediaRevisionParser parser = new WikipediaRevisionParser();
+////        String inputStreamData = reader.readParsedData(connection);
+//        System.out.println(inputStreamData); // INPUTSTREAMDATA => has all the data from the website!!
+//
+////        List parseAllRevisions = parser.parse((InputStream) inputStreamData);
+//
+//        String newInputStreamData = inputStreamData;
+//
+//        JSONArray username = (parser.usernameParser(newInputStreamData));
+//        System.out.println(username);
+//        JSONArray timestamp = (parser.timestampParser(newInputStreamData));
+//        System.out.println(timestamp.get(0));
+//        JSONArray revisions = (parser.revisionsParser(newInputStreamData));
+//
+//        JSONArray allData = new JSONArray();
+//        allData.add(timestamp);
+//        allData.add(username);
+//        allData.add(revisions);
+//
+//        return allData;
+//    }
 
 }

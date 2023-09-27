@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class WikipediaRevisionParserTests {
@@ -36,10 +34,10 @@ public class WikipediaRevisionParserTests {
     @Test
     public void testUsernameParse() throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
-        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
-        String testData = convertStreamToString(testDataStream);
-        JSONArray username = parser.usernameParser(testData);
-        Assertions.assertEquals("StefenTower", username);
+        String testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json").toString();
+//        String testData = testDataStream.toString();
+        JSONArray username = parser.usernameParser(testDataStream);
+        Assertions.assertEquals("StefenTower", username.get(0));
     }
 
     @Test
@@ -58,7 +56,7 @@ public class WikipediaRevisionParserTests {
     @Test
     public void testWorkingURL() throws IOException {
         WikipediaRevisionReader parser = new WikipediaRevisionReader();
-        String url = parser.createWorkingURL("zappa").toString();
+        String url = parser.getConstructedURL("zappa").toString();
         Assertions.assertEquals("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 "zappa&rvprop=timestamp|user&rvlimit=13&redirects", url);
     }
