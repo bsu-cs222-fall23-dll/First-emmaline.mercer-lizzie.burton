@@ -38,5 +38,6 @@
     is a green arrow. The user must push that to run the application. The
     command prompt will appear on the bottom of the screen and ask the user
     for an article title. The user must provide an article title. Then, the 
-    project runs
+    project runs and provides the user with 13 most recent changes, timestamps,
+    and users. The code has now been succesfully run.
     
