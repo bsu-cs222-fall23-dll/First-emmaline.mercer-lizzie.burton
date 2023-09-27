@@ -1,5 +1,9 @@
-# Assignment 6
 
-*Added by: Lizzie Burton*
-*Name Added by: Emmaline Mercer*
-*Another name add: Lizzie Burton*
+            TITLE
+    #   PROJECT 1 - Iteration 1
+
+            AUTHORS
+    Emmaline Mercer
+    Lizzie Burton
+
+    PROJECT SUMMARY: 
