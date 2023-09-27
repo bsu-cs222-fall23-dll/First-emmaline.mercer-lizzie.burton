@@ -6,8 +6,23 @@ import net.minidev.json.JSONArray;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.Charset;
+import java.util.Scanner;
 
 public class WikipediaRevisionReader {
+    public void run() {
+        Revision revision = new Revision();
+        WikipediaRevisionReader reader = new WikipediaRevisionReader();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the article name you are looking for: ");
+        String articleTitle = scanner.nextLine();
+        reader.checkArticleTitle(articleTitle);
+
+        try {
+            revision.printListOFAllRevisions(articleTitle);
+        } catch (IOException ioException) {
+            System.err.println("Network connection problem: " + ioException.getMessage());
+        }
+    }
     public JSONArray readParsedData(String articleTitle) throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
@@ -25,6 +40,12 @@ public class WikipediaRevisionReader {
         JSONArray pageMissingCheck  = JsonPath.read(inputStreamData, "$..missing");
         if( !pageMissingCheck.isEmpty()) {
             System.err.println("Error, No Page Found!");
+        }
+    }
+
+    public void checkArticleTitle(String userInput) {
+        if (userInput.trim().isEmpty()) {
+            System.err.println("Invalid input -- nothing was inputted.");
         }
     }
 
