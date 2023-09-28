@@ -14,6 +14,7 @@ public class WikipediaRevisionReader {
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the article name you are looking for: ");
+
         String articleTitle = scanner.nextLine();
         reader.checkArticleTitle(articleTitle);
 

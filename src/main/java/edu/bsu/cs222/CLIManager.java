@@ -10,4 +10,5 @@ public abstract class CLIManager {
     }
 
 
+    public abstract void start(Stage primaryStage);
 }
