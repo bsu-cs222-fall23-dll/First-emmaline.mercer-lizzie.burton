@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import static javafx.application.Application.launch;
 
-public class Main extends WikipediaRevisionReader {
+public class Main extends CLIManager {
 
     @Override
     public void start(Stage primaryStage) {
