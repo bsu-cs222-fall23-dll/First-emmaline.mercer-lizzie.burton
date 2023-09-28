@@ -1,6 +1,8 @@
 package edu.bsu.cs222;
 
-public class CLIManager {
+import javafx.stage.Stage;
+
+public abstract class CLIManager {
 
     public static void main(String[] args) {
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
