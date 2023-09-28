@@ -1,8 +1,10 @@
 plugins {
-    id("java")
+    id "java"
+    id "application"
+    id "org.openjfx.javafxplugin" version "0.0.13"
 }
 
-group = "org.example"
+group = "edu.bsu.cs222"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -14,7 +16,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("com.jayway.jsonpath:json-path:2.8.0")
     implementation("net.minidev:json-smart:2.5.0")
-    testImplementation("org.slf4j:slf4j-simple:1.6.1")
+    implementation("org.slf4j:slf4j-nop:2.0.9")
 
 
 
@@ -27,3 +29,9 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+javafx {
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    version = '13.0.2'
+}
+mainClassName = 'edu.bsu.cs222.CLIManager'
