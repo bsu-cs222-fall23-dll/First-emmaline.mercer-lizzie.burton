@@ -16,7 +16,7 @@ public class WikipediaRevisionReader {
         System.out.println("Please enter the article name you are looking for: ");
 
         String articleTitle = scanner.nextLine();
-        reader.checkArticleTitle(articleTitle);
+//        reader.checkArticleTitle(articleTitle);
 
         try {
             revisions.printListOFAllRevisions(articleTitle);
@@ -24,16 +24,22 @@ public class WikipediaRevisionReader {
             System.err.println("Network connection problem: " + ioException.getMessage());
         }
     }
-    public JSONArray readParsedData(String articleTitle) throws IOException {
+    public JSONArray readParsedData(String articleTitle) {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
-        Redirect redirect = new Redirect();
+//        Redirect redirect = new Redirect();
         URL url = reader.getConstructedURL(articleTitle);
         URLConnection connection = WikipediaRevisionReader.connectURLToWiki(url);
-        String inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
-        redirect.isRedirected(inputStreamData);
-        ifPageMissing(inputStreamData);
-        JSONArray revisions = (parser.revisionsParser(inputStreamData));
+        String inputStreamData = null;
+        JSONArray revisions = null;
+        try {
+            inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
+            revisions = (parser.revisionsParser(inputStreamData));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        redirect.isRedirected(inputStreamData);
+//        ifPageMissing(inputStreamData);
         return revisions;
     }
 
@@ -50,10 +56,15 @@ public class WikipediaRevisionReader {
         }
     }
 
-    public URL getConstructedURL(String articleTitle) throws MalformedURLException {
+    public URL getConstructedURL(String articleTitle){
         String encodedURLString = URLEncoder.encode(articleTitle, Charset.defaultCharset());
-        URL url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles="
-                + encodedURLString + "&rvprop=timestamp|user&rvlimit=13&redirects");
+        URL url = null;
+        try {
+            url = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles="
+                    + encodedURLString + "&rvprop=timestamp|user&rvlimit=13&redirects");
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
         return url;
     }
 
