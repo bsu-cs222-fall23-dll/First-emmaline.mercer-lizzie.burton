@@ -19,7 +19,7 @@ public class Revision {
 
     public void printListOFAllRevisions(String articleTitle) throws IOException {
         WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
-        ArrayList<String> revisedArray = revisionReader.readParsedData(articleTitle);
+        JSONArray revisedArray = revisionReader.readParsedData(articleTitle);
         System.out.println("\nArticle Changes: ");
         for (Object revision : revisedArray) {
             String revisionUserName = JsonPath.read(revision, "$.user");

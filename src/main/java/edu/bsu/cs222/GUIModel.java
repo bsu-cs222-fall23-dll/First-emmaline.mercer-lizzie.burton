@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class GUIModel {
 
-    public ArrayList<String> searchArticle(String inputName) throws IOException {
+    public JSONArray searchArticle(String inputName) throws IOException {
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
-        ArrayList<String> revisedList = reader.readParsedData(inputName);
-        return revisedList;
+        JSONArray revisedArray = reader.readParsedData(inputName);
+        return revisedArray;
     }
 }

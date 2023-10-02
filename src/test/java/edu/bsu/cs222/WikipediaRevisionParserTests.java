@@ -38,7 +38,7 @@ public class WikipediaRevisionParserTests {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
 //        String testData = convertStreamToString(testDataStream);
-        ArrayList<String> revisions = parser.revisionsParser(String.valueOf(testDataStream));
+        JSONArray revisions = parser.revisionsParser(String.valueOf(testDataStream));
         System.out.println(revisions);
         String revisionsString = "{\"user\":\"2403:580D:6977:1:EC6C:A030:68E7:65A7\",\"anon\":\"\",\"timestamp\":\"2023-09-25T23:07:44Z\"}";
         Assertions.assertEquals(testDataStream, revisions);

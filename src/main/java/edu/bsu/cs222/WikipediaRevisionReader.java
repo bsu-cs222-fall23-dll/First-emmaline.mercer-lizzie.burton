@@ -25,14 +25,14 @@ public class WikipediaRevisionReader {
             System.err.println("Network connection problem: " + ioException.getMessage());
         }
     }
-    public ArrayList<String> readParsedData(String articleTitle) throws IOException {
+    public JSONArray readParsedData(String articleTitle) throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
 //        Redirect redirect = new Redirect();
         URL url = reader.getConstructedURL(articleTitle);
         URLConnection connection = WikipediaRevisionReader.connectURLToWiki(url);
         String inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
-        ArrayList<String> revisions = (parser.revisionsParser(inputStreamData));
+        JSONArray revisions = parser.revisionsParser(inputStreamData);
 //        redirect.isRedirected(inputStreamData);
 //        ifPageMissing(inputStreamData);
         return revisions;

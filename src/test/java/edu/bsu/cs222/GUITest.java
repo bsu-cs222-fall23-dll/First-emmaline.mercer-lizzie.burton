@@ -9,7 +9,11 @@ import java.io.InputStream;
 
 public class GUITest {
     @Test
-    public void testErrors() throws IOException {
+    public void testGetUserInputAndDisplay() throws IOException {
+//        GUIMain main = new GUIMain();
+//        main.start();
+//        text.setText("The article you searched was: " + textField.getText());
+//        System.out.println(textField.getText());
 
     }
 }
