@@ -5,6 +5,7 @@ import net.minidev.json.JSONArray;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Revision {
 
@@ -18,7 +19,7 @@ public class Revision {
 
     public void printListOFAllRevisions(String articleTitle) throws IOException {
         WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
-        JSONArray revisedArray = revisionReader.readParsedData(articleTitle);
+        ArrayList<String> revisedArray = revisionReader.readParsedData(articleTitle);
         System.out.println("\nArticle Changes: ");
         for (Object revision : revisedArray) {
             String revisionUserName = JsonPath.read(revision, "$.user");

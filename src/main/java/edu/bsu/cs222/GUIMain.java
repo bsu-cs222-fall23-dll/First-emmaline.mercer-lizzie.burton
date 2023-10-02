@@ -1,15 +1,18 @@
 package edu.bsu.cs222;
 
+import com.jayway.jsonpath.JsonPath;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import net.minidev.json.JSONArray;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,33 +22,70 @@ import static javafx.application.Application.launch;
 public class GUIMain extends Application {
     Button searchButton;
     Stage window;
+    Scene scene;
     ListView<String> listView;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) throws IOException {
         GUIModel model = new GUIModel();
         window = primaryStage;
-        window.setTitle("Wikipedia Revision Query");
         searchButton = new Button("Search");
 
         //FORM
-        TextField input = new TextField();
-        String nameInput = input.getText(); //.setPromptText("Enter Wikipedia article name: ");
-        listView = new ListView<>();
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        JSONArray revisionsList = model.searchArticle(String.valueOf(nameInput));
-//        String[] revisionsList = new String[]{"cat", "dog"};
+        Label label1 = new Label("Enter Wikipedia article name:");
+        TextField textField = new TextField();
+        textField.setPromptText("Enter Article Name");
+        textField.setFocusTraversable(false);
+//        String  articleTitle = textField.getText();
+
+
+        Text text = new Text("");
+        Font font = Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 10);
+        text.setFont(font);
+        text.setTranslateX(15);
+        text.setTranslateY(125);
+        text.setFill(Color.PURPLE);
+        text.maxWidth(580);
+        text.setWrappingWidth(580);
+
+
+//        String textField = input.getText().formatted("Enter Wikipedia article name: "); //.setPromptText("Enter Wikipedia article name: ");
+
+//        listView = new ListView<>();
+//        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+       // String[] revisionsList = new String[]{"cat", "dog"};
         searchButton.setOnAction(e -> {
-            for (Object section : revisionsList) {
-                listView.getItems().add((String) section);
+            text.setText("The article you searched was: " + textField.getText());
+            System.out.println(textField.getText());
+
+            ArrayList<String> revisionsList = null;
+            try {
+                revisionsList = model.searchArticle(String.valueOf(textField.getText()));
+                for (Object element : revisionsList) {
+                    String revisionUserName = JsonPath.read(element, "$.user");
+                    String revisionTimestamp = JsonPath.read(element, "$.timestamp");
+                    text.setText(revisionTimestamp + revisionUserName);
+//                    listView.getItems().add((String) element);
+                }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
+
         });
 
         //LAYOUT
         VBox layout = new VBox(20);
-        layout.setPadding(new Insets(20, 20, 20, 20));
-        layout.getChildren().addAll(listView, searchButton);//revisionList
-        window.setScene(new Scene(layout, 300, 250));
+        layout.setPadding(new Insets(25, 5, 5, 50));
+        layout.getChildren().addAll(label1, textField);//revisionList, listView
+        Group root = new Group(layout, text, searchButton);
+        scene = new Scene(root, 595, 150, Color.IVORY);
+        window.setTitle("Wikipedia Revision Query");
+        window.setScene(scene);
         window.show();
 
 
@@ -55,9 +95,9 @@ public class GUIMain extends Application {
 //                listView = new ListView<>();
 //                listView.getItems().addAll("Cat", "Dog", "Mouse");
 //                listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        //{ System.out.println(nameInput.getText())
+        //{ System.out.println(textField.getText())
 ////            try {
-////                searchArticle(nameInput.getText());
+////                searchArticle(textField.getText());
 ////            } catch (IOException ex) {
 ////                throw new RuntimeException(ex);
 ////            }
@@ -65,9 +105,6 @@ public class GUIMain extends Application {
 
 //        ListView<String> revisionList = new ListView<>();
 
-    }
-    public static void main(String[] args) {
-        launch(args);
     }
 }
 

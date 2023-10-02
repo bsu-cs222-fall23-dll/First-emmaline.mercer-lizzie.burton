@@ -6,6 +6,7 @@ import net.minidev.json.JSONArray;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class WikipediaRevisionReader {
@@ -24,20 +25,14 @@ public class WikipediaRevisionReader {
             System.err.println("Network connection problem: " + ioException.getMessage());
         }
     }
-    public JSONArray readParsedData(String articleTitle) {
+    public ArrayList<String> readParsedData(String articleTitle) throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
         WikipediaRevisionReader reader = new WikipediaRevisionReader();
 //        Redirect redirect = new Redirect();
         URL url = reader.getConstructedURL(articleTitle);
         URLConnection connection = WikipediaRevisionReader.connectURLToWiki(url);
-        String inputStreamData = null;
-        JSONArray revisions = null;
-        try {
-            inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
-            revisions = (parser.revisionsParser(inputStreamData));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
+        ArrayList<String> revisions = (parser.revisionsParser(inputStreamData));
 //        redirect.isRedirected(inputStreamData);
 //        ifPageMissing(inputStreamData);
         return revisions;
