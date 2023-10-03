@@ -5,6 +5,7 @@ import net.minidev.json.JSONArray;
 import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WikipediaRevisionParser {
     public JSONArray revisionsParser (String testDataStream) throws IOException {
@@ -34,14 +35,25 @@ public class WikipediaRevisionParser {
         return JsonPath.read(testDataStream, "$..user");
     }
 
-    public void printListOFAllRevisions(String articleTitle) throws IOException {
-        WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
-        JSONArray revisedArray = revisionReader.readParsedData(articleTitle);
-        System.out.println("\nArticle Changes: ");
-        for (Object revision : revisedArray) {
+//    public void printListOFAllRevisions(String articleTitle) throws IOException {
+//        WikipediaRevisionReader revisionReader = new WikipediaRevisionReader();
+//        JSONArray revisedArray = revisionReader.readParsedData(articleTitle);
+//        System.out.println("\nArticle Changes: ");
+//        for (Object revision : revisedArray) {
+//            String revisionUserName = JsonPath.read(revision, "$.user");
+//            String revisionTimestamp = JsonPath.read(revision, "$.timestamp");
+//            System.out.println("Timestamp: " + revisionTimestamp + " " + "User: " + revisionUserName);
+//        }
+//    }
+    public List<String> getFirstThirteenRevisions(String articleTitle) throws IOException {
+        JSONArray revisions = revisionsParser(articleTitle);
+        List<String> firstThirteenRevisions = new ArrayList<>();
+        for (Object revision : revisions) {
             String revisionUserName = JsonPath.read(revision, "$.user");
             String revisionTimestamp = JsonPath.read(revision, "$.timestamp");
-            System.out.println("Timestamp: " + revisionTimestamp + " " + "User: " + revisionUserName);
+            firstThirteenRevisions.add("Timestamp: " + revisionTimestamp + " User: " + revisionUserName);
         }
+        return firstThirteenRevisions;
     }
+
 }
