@@ -1,5 +1,6 @@
 package edu.bsu.cs222;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -47,7 +48,11 @@ public class GUIView {
                 }
 
                 for (Revision rev : revisions) {
-                    outputArea.appendText("User: " + rev.getUsername() + ", Timestamp: " + rev.getTimestamp() + "\n");
+                    Platform.runLater(() -> {
+                        // Code that updates the UI goes here
+                        outputArea.appendText("User: " + rev.getUsername() + ", Timestamp: " + rev.getTimestamp() + "\n");
+                    });
+                  //  outputArea.appendText("User: " + rev.getUsername() + ", Timestamp: " + rev.getTimestamp() + "\n");
                 }
             } catch (IOException e) {
                 String errorMessage = e.getMessage();
@@ -58,6 +63,8 @@ public class GUIView {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Network Error: " + errorMessage);
                     alert.showAndWait();
                 }
+                // Use Platform.runLater when updating the UI:
+
 
 
             } finally {
