@@ -3,7 +3,6 @@ package edu.bsu.cs222;
 import com.jayway.jsonpath.JsonPath;
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,17 +15,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import net.minidev.json.JSONArray;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 
 import static javafx.application.Application.launch;
 
 public class GUIMain extends Application {
-    Button searchButton;
+    Button searchButton, goBackButton, closeButton;
     Stage window;
-    Scene scene;
+    Scene scene, scene2;
     ListView<String> listView;
 
     public static void main(String[] args) {
@@ -36,32 +33,45 @@ public class GUIMain extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         GUIModel model = new GUIModel();
+        AlertBox alertBox = new AlertBox();
         window = primaryStage;
+
         searchButton = new Button("Search");
-        searchButton.setAlignment(Pos.BASELINE_CENTER);
+        searchButton.setLayoutX(50);
+        searchButton.setLayoutY(85);
+
+        goBackButton = new Button("Go Back");
+        goBackButton.setLayoutX(100);
+        goBackButton.setLayoutY(100);
+
+        closeButton = new Button(("click me"));
+        closeButton.setLayoutX(50);
+        closeButton.setLayoutY(100);
+        closeButton.setOnAction(e -> alertBox.displayAlertBox("Title", "Message"));
 
         //FORM
-        Label label1 = new Label("Enter Wikipedia article name:");
+        Text text = new Text("");
+        text.setText("Enter Wikipedia Article Name:");
+        Font font = Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20);
+        text.setFont(font);
+        text.setTranslateX(15);
+        text.setTranslateY(30);
+        text.setFill(Color.WHITE);
+        text.maxWidth(580);
+        text.setWrappingWidth(580);
 
         TextField textField = new TextField();
         textField.setPromptText("Enter Article Name");
         textField.setFocusTraversable(false);
-        Text text = new Text("");
-        Font font = Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 10);
-        text.setFont(font);
-        text.setTranslateX(15);
-        text.setTranslateY(125);
-        text.setFill(Color.PURPLE);
-        text.maxWidth(580);
-        text.setWrappingWidth(580);
 
         listView = new ListView<>();
         listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
        // String[] revisionsList = new String[]{"cat", "dog"}; // MAYBE I CAN MAKE A TEST OUT OF THIS???
 
-        //BUTTON ACTION
+        //SEARCHBUTTON ACTION
         searchButton.setOnAction(e -> {
+            window.setScene(scene2);
 //            text.setText("The article you searched was: " + textField.getText());
             JSONArray revisedArray = null;
             try {
@@ -77,64 +87,38 @@ public class GUIMain extends Application {
                                 revisedStringArray[i] = ("Timestamp: " + revisionTimestamp + " User: " + revisionUserName);
                                 listView.getItems().add((String)revisedStringArray[i]);
                                 i--;
-
-//                            } else if (revisedStringArray[i + 1] == null && Integer.parseInt(revisedStringArray[i]) != 0 && Array.get(revisedStringArray, i) != Array.get(revisedStringArray, i - 1)) { // used to add to every i > 0
-//                                revisedStringArray[i + 1] = ("Timestamp: " + revisionTimestamp + " User: " + revisionUserName);
-//                                listView.getItems().add((String)revisedStringArray[i + 1]);
-//                                i--;
-                                //if (0 == Integer.parseInt(revisedStringArray[i])) {
-//                                    break;
-//                                if (Array.get(revisedStringArray, i) != Array.get(revisedStringArray, i - 1) && Integer.parseInt(revisedStringArray[i]) != 0) {
-//                                    revisedStringArray[i + 1] = ("Timestamp: " + revisionTimestamp + " User: " + revisionUserName);
-//                                    listView.getItems().add((String) revisedStringArray[i + 1]);
-//                                    i--;
-////                                break;
-//                                } else {
-//                                    break;
-//                                }
                             } else {
                                 break;
                             }
                         }
                     }
-//                    revisedStringArray[(revisionTimestamp + revisionUserName);
-//                    text.setText("Timestamp: " + revisionTimestamp + " User: " + revisionUserName);
-//                    text.setText("Timestamp: " + revisionTimestamp + " User: " + revisionUserName);
-//                    //listView.getItems().add((String)revision);
-//                }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-
         });
 
-        //LAYOUT
+        //GOBACKBUTTON ACTION
+        goBackButton.setOnAction(e -> {
+            window.setScene(scene);
+            listView.getItems().clear();
+        });
+
+        //LAYOUT OF SCENE1
         VBox layout = new VBox(20);
-        layout.setPadding(new Insets(25, 5, 5, 50));
-        layout.getChildren().addAll(label1, textField, listView);//revisionList, listView
+        layout.setPadding(new Insets(50, 50, 50, 50));
+        layout.getChildren().addAll(textField);
         Group root = new Group(layout, text, searchButton);
-        scene = new Scene(root, 595, 150, Color.IVORY);
+        scene = new Scene(root, 500, 500, Color.CORNFLOWERBLUE);
         window.setTitle("Wikipedia Revision Query");
         window.setScene(scene);
         window.show();
 
-
-//        searchButton = new Button("Search");
-
-//        searchButton.setOnAction(e -> );
-//                listView = new ListView<>();
-//                listView.getItems().addAll("Cat", "Dog", "Mouse");
-//                listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        //{ System.out.println(textField.getText())
-////            try {
-////                searchArticle(textField.getText());
-////            } catch (IOException ex) {
-////                throw new RuntimeException(ex);
-////            }
-//        });
-
-//        ListView<String> revisionList = new ListView<>();
-
+        //LAYOUT OF SCENE2
+        VBox layout2 = new VBox(20);
+        layout2.setPadding(new Insets(50, 50, 50, 50));
+        layout2.getChildren().addAll(listView, goBackButton);
+        Group root2 = new Group(layout2);
+        scene2 = new Scene(root2, 500, 500, Color.CORNFLOWERBLUE);
     }
 }
 
