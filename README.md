@@ -41,3 +41,11 @@
     project runs and provides the user with 13 most recent changes, timestamps,
     and users. The code has now been succesfully run.
     
+    ## How to Run
+
+    ### Graphical User Interface (GUI):
+    Run the `edu.bsu.cs222.GUIView` class for the graphical interface to check Wikipedia revisions.
+
+    ### Console Application:
+    Run the `edu.bsu.cs222.CLIManager` class for the console-based application to check Wikipedia revisions.
+

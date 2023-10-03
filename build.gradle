@@ -12,20 +12,40 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation(platform('org.junit:junit-bom:5.9.2'))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("com.jayway.jsonpath:json-path:2.8.0")
     implementation("net.minidev:json-smart:2.5.0")
     implementation("org.slf4j:slf4j-nop:2.0.9")
     testImplementation 'org.testfx:testfx-junit5:4.0.16-alpha'
 
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'  // for JUnit 5 API
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'  // for the Test Engine
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'  // for Parameterized Tests
 
+    // Mockito for mocking in tests
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
 
 
 
     //implementation 'org.json:json:20230618'
 
 }
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main'
+        }
+        resources {
+            srcDirs 'src/main'
+        }
+    }
+}
+
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 
 tasks.test {
