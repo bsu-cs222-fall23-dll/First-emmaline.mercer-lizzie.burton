@@ -27,7 +27,6 @@ public class WikipediaRevisionParser {
         return revisions;
     }
 
-
     public boolean isRedirected(String jsonData) {
         Object redirectJson = JsonPath.read(jsonData, "$.query.redirects");
         return redirectJson != null;

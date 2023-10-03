@@ -36,11 +36,18 @@ public class CLIManager {
         try {
             String jsonData = reader.fetchRevisionData(articleTitle);
             List<Revision> revisions = parser.parseRevisions(jsonData);
+            checkArticleTitle(articleTitle);
 
             displayRevisions(articleTitle, revisions);
 
         } catch (IOException e) {
             System.out.println("An error occurred while fetching or parsing data. Details: " + e.getMessage());
+        }
+    }
+
+    public void checkArticleTitle(String userInput) {
+        if (userInput.trim().isEmpty()) {
+            System.err.println("Invalid input -- nothing was inputted.");
         }
     }
 
