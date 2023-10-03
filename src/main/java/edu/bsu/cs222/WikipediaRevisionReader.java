@@ -19,11 +19,11 @@ public class WikipediaRevisionReader {
         String articleTitle = scanner.nextLine();
 //        reader.checkArticleTitle(articleTitle);
 
-        try {
-            revisions.printListOFAllRevisions(articleTitle);
-        } catch (IOException ioException) {
-            System.err.println("Network connection problem: " + ioException.getMessage());
-        }
+//        try {
+//            revisions.printListOFAllRevisions(articleTitle);
+//        } catch (IOException ioException) {
+//            System.err.println("Network connection problem: " + ioException.getMessage());
+//        }
     }
     public JSONArray readParsedData(String articleTitle) throws IOException {
         WikipediaRevisionParser parser = new WikipediaRevisionParser();
@@ -33,7 +33,7 @@ public class WikipediaRevisionReader {
         URLConnection connection = WikipediaRevisionReader.connectURLToWiki(url);
         String inputStreamData = new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
         JSONArray revisions = parser.revisionsParser(inputStreamData);
-//        redirect.isRedirected(inputStreamData);
+//       redirect.isRedirected(inputStreamData);
 //        ifPageMissing(inputStreamData);
         return revisions;
     }
