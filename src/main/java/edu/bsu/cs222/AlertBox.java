@@ -22,7 +22,7 @@ public class AlertBox {
         Label label = new Label();
         label.setText(message);
         Button closeButton = new Button();
-        closeButton.
+        closeButton.setOnAction();
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, closeButton);
