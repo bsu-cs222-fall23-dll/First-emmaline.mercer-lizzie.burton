@@ -53,3 +53,6 @@
     Run the `edu.bsu.cs222.CLIManager` class for the console-based application 
     to check Wikipedia revisions.
 
+    **Weak Warnings**
+    Warning:(17, 105) StandardCharsets.UTF_8 can be used instead
+
