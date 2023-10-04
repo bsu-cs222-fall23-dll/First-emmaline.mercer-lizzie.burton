@@ -22,7 +22,7 @@ public class WikipediaRevisionReader {
             URL url = new URL(formattedUrl);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", "WikipediaRevisionReader/0.1");
+            connection.setRequestProperty("User-Agent", "CS222Project1Iteration2/ewburton@bsu.edu,emmaline.mercer@bsu.edu");
             connection.connect();
 
             int responseCode = connection.getResponseCode();
