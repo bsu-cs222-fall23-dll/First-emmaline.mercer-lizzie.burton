@@ -33,10 +33,19 @@ public class CLIManager {
     }
 
     public void processArticle(String articleTitle) {
+        if (articleTitle.trim().isEmpty()) {
+            System.err.println("Invalid input -- nothing was inputted.");
+            return;
+        }
+
         try {
             String jsonData = reader.fetchRevisionData(articleTitle);
+            if (jsonData.contains("\"missing\"")) {
+                System.out.println("The given article title does not exist on Wikipedia.");
+                return;
+            }
+
             List<Revision> revisions = parser.parseRevisions(jsonData);
-            checkArticleTitle(articleTitle);
 
             displayRevisions(articleTitle, revisions);
 
@@ -44,6 +53,7 @@ public class CLIManager {
             System.out.println("An error occurred while fetching or parsing data. Details: " + e.getMessage());
         }
     }
+
 
     public void checkArticleTitle(String userInput) {
         if (userInput.trim().isEmpty()) {
