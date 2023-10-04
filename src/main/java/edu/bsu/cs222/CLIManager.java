@@ -55,12 +55,6 @@ public class CLIManager {
     }
 
 
-    public void checkArticleTitle(String userInput) {
-        if (userInput.trim().isEmpty()) {
-            System.err.println("Invalid input -- nothing was inputted.");
-        }
-    }
-
     private void displayRevisions(String articleTitle, List<Revision> revisions) {
         if (revisions.isEmpty()) {
             System.out.println("No revisions found for the given article title.");
