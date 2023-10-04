@@ -23,9 +23,4 @@ public class WikipediaRevisionParserTest {
         assertTrue(parser.isRedirected(jsonData));
     }
 
-//    @Test
-//    public void testIsRedirected_false() {
-//        String jsonData = "{\"query\":{\"pages\":{\"12345\":{\"revisions\":[{\"user\":\"User1\",\"timestamp\":\"2022-09-28T00:00:00Z\"}]}}}}";
-//        assertFalse(parser.isRedirected(jsonData));
-//    }
 }

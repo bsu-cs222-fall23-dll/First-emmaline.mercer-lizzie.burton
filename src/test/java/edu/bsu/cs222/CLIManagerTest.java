@@ -37,7 +37,7 @@ public class CLIManagerTest {
         WikipediaRevisionParser parser = mock(WikipediaRevisionParser.class);
 
         String testArticleTitle = "TestArticle";
-        String mockJsonData = "{...}"; // Mock JSON response
+        String mockJsonData = "{...}";
         List<Revision> mockRevisions = Arrays.asList(
                 new Revision("User1", LocalDateTime.now()),
                 new Revision("User2", LocalDateTime.now())
@@ -46,7 +46,7 @@ public class CLIManagerTest {
         when(reader.fetchRevisionData(testArticleTitle)).thenReturn(mockJsonData);
         when(parser.parseRevisions(mockJsonData)).thenReturn(mockRevisions);
 
-        // Bypassing encapsulation with reflection to inject mocks
+
         try {
             Field readerField = CLIManager.class.getDeclaredField("reader");
             Field parserField = CLIManager.class.getDeclaredField("parser");

@@ -13,9 +13,6 @@ public class WikipediaRevisionReader {
             "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvlimit=13&rvprop=timestamp|user";
 
 
-//    private static final String WIKIPEDIA_API_URL_TEMPLATE =
-//            "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvlimit=10&rvprop=timestamp|user";
-
     public String fetchRevisionData(String articleTitle) throws IOException {
         String formattedUrl = String.format(WIKIPEDIA_API_URL_TEMPLATE, URLEncoder.encode(articleTitle, Charset.forName("UTF-8")));
         HttpURLConnection connection = null;
@@ -25,7 +22,7 @@ public class WikipediaRevisionReader {
             URL url = new URL(formattedUrl);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", "WikipediaRevisionReader/0.1"); //rename this into what we had
+            connection.setRequestProperty("User-Agent", "WikipediaRevisionReader/0.1");
             connection.connect();
 
             int responseCode = connection.getResponseCode();
@@ -35,7 +32,14 @@ public class WikipediaRevisionReader {
 
             response = connection.getInputStream();
             Scanner scanner = new Scanner(response).useDelimiter("\\A");
-            return scanner.hasNext() ? scanner.next() : "";
+            String jsonData = scanner.hasNext() ? scanner.next() : "";
+
+            String redirectedTitle = Redirect.getRedirectedTitle(jsonData);
+            if (redirectedTitle != null) {
+                jsonData = fetchRevisionData(redirectedTitle);
+            }
+
+            return jsonData;
 
         } finally {
             if (response != null) {
@@ -46,4 +50,5 @@ public class WikipediaRevisionReader {
             }
         }
     }
+
 }

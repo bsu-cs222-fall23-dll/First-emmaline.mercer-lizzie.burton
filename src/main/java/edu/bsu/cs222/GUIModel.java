@@ -13,20 +13,18 @@ public class GUIModel {
         this.parser = new WikipediaRevisionParser();
     }
 
-
-
     public List<Revision> getRevisionsForArticle(String articleTitle) throws IOException {
         String jsonData = reader.fetchRevisionData(articleTitle);
+
         String redirectedTitle = Redirect.getRedirectedTitle(jsonData);
-
-
         if (redirectedTitle != null) {
-            // If there's a redirection, fetch the revision data again for the new title
             jsonData = reader.fetchRevisionData(redirectedTitle);
+            return parser.parseRevisions(jsonData);
+        } else {
+            return parser.parseRevisions(jsonData);
         }
-
-        return parser.parseRevisions(jsonData);
     }
+
 
 
 }

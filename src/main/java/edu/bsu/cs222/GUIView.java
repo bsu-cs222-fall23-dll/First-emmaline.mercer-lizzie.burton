@@ -19,7 +19,7 @@ public class GUIView {
     @FXML
     private TextArea outputArea;
 
-    private final GUIModel model = new GUIModel(); // Assuming you have a GUIModel for data fetching
+    private final GUIModel model = new GUIModel();
 
     @FXML
     public void initialize() {
@@ -29,49 +29,52 @@ public class GUIView {
     private void fetchAndDisplayRevisions() {
         String articleTitle = inputField.getText().trim();
 
-
         if (articleTitle.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Please provide an article name.");
             alert.showAndWait();
             return;
         }
 
-        fetchButton.setDisable(true); // Disable the button while processing.
-        inputField.setEditable(false); // Disable the input field.
+        fetchButton.setDisable(true);
+        inputField.setEditable(false);
 
         new Thread(() -> {
             try {
                 List<Revision> revisions = model.getRevisionsForArticle(articleTitle);
                 String redirectedTitle = Redirect.getRedirectedTitle(String.valueOf(revisions));
-                if (redirectedTitle != null) {
-                    outputArea.appendText("Note: You were redirected from " + articleTitle + " to " + redirectedTitle + "\n");
-                }
 
-                for (Revision rev : revisions) {
-                    Platform.runLater(() -> {
-                        // Code that updates the UI goes here
+                Platform.runLater(() -> {
+                    if (redirectedTitle != null) {
+                        outputArea.appendText("Note: You were redirected from " + articleTitle + " to " + redirectedTitle + "\n");
+                    }
+
+                    for (Revision rev : revisions) {
                         outputArea.appendText("User: " + rev.getUsername() + ", Timestamp: " + rev.getTimestamp() + "\n");
-                    });
-                  //  outputArea.appendText("User: " + rev.getUsername() + ", Timestamp: " + rev.getTimestamp() + "\n");
-                }
+                    }
+                });
+
             } catch (IOException e) {
                 String errorMessage = e.getMessage();
-                if (errorMessage.contains("HTTP response code: 404")) {
-                    outputArea.appendText("No Wikipedia page found for the given article name.\n");
-                } else {
-                    // Use JavaFX alert instead of JOptionPane
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Network Error: " + errorMessage);
-                    alert.showAndWait();
-                }
-                // Use Platform.runLater when updating the UI:
 
+                Platform.runLater(() -> {
+                    if (errorMessage.contains("HTTP response code: 404")) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "No Wikipedia page found for the given article name.");
+                        alert.showAndWait();
+                    } else if (errorMessage.contains("UnknownHostException")) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Please check your internet connection.");
+                        alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Error: Did you check your internet? " + errorMessage);
+                        alert.showAndWait();
+                    }
 
-
-            } finally {
-                fetchButton.setDisable(false);
-                inputField.setEditable(true); // Re-enable the input field.
+                    fetchButton.setDisable(false);
+                    inputField.setEditable(true);
+                });
             }
         }).start();
     }
+
+
 
 }
